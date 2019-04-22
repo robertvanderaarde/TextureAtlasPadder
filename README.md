@@ -1,6 +1,6 @@
 ### About
 
-Texture Atlas Padder was built to create texture atlases that support pixel padding. This is useful for using a texture atlas for terrain generation. The reason the padding is necessary is that when creating mip maps for the textures, without the padding there is often bleeding on the texture atlas.
+Texture Atlas Padder was built to create texture atlases that support pixel padding. This is useful for using a texture atlas in terrain generation. The reason the padding is necessary is that when you create mip maps for the textures, without the padding there is often bleeding on the texture atlas.
 
 ### How to use
 
@@ -11,6 +11,8 @@ The Texture ID is what determines the position of the texture on the atlas. It i
     	0, 1, 2, 
     	3, 4, 5,
     	6, 7, 8
+        
+Make sure you save the project often, especially after you generate the texture atlas. You will not be able to load a project from a texture atlas, and will have to save a separate .tap file.
 
 # Download
 [Version 1.0](https://www.dropbox.com/s/uxfdfduoa229j1j/TextureAtlasPadder.zip?dl=1 "Version 1.0")
