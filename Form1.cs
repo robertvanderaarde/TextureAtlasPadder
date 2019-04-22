@@ -141,7 +141,6 @@ namespace TextureAtlasPadder
             }
 
             int idx = list_images.SelectedIndices[0];
-            last_selected = idx;
             if (idx >= images.Count)
             {
                 return;
@@ -150,6 +149,7 @@ namespace TextureAtlasPadder
             // Picture box
             if (idx >= 0 && idx < images.Count)
             {
+                last_selected = idx;
                 Bitmap bmp = images[idx].GetImage();
                 Bitmap resized = new Bitmap(bmp, new Size(picbox_image.Width, picbox_image.Height));
 
@@ -160,8 +160,12 @@ namespace TextureAtlasPadder
 
         private void num_texid_ValueChanged(object sender, EventArgs e)
         {
-            int idx = last_selected;
-            if (idx >= images.Count && idx >= 0)
+            if (list_images.SelectedIndices.Count == 0)
+            {
+                return;
+            }
+            int idx = list_images.SelectedIndices[0];
+            if (idx >= images.Count && idx >= 0 || idx < 0)
             {
                 return;
             }
