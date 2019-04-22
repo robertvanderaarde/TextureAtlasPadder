@@ -34,8 +34,17 @@ namespace TextureAtlasPadder
 
         void SetupForm()
         {
-            list_images.View = View.List;
+            list_images.View = View.Details;
             list_images.MultiSelect = false;
+            list_images.Scrollable = true;
+            list_images.HeaderStyle = ColumnHeaderStyle.None;
+
+            ColumnHeader header = new ColumnHeader();
+            header.Text = "";
+            header.Name = "col1";
+            header.Width = list_images.Width;
+            list_images.Columns.Add(header);
+
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -149,11 +158,19 @@ namespace TextureAtlasPadder
                 list_images.Items.Add("(" + images[i].GetID() + "): " + images[i].GetFileName() + "                                  ");
             }
 
-            if (list_images.Items.Count > selected)
+            if (list_images.Items.Count <= selected)
+            {
+                selected = list_images.Items.Count - 1;
+            }
+
+            try
             {
                 list_images.Items[selected].Focused = true;
                 list_images.Items[selected].Selected = true;
+                list_images.Items[selected].EnsureVisible();
+
             }
+            catch (Exception e1) { }
         }
 
         private void list_images_SelectedIndexChanged(object sender, EventArgs e)

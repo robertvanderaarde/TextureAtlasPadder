@@ -69,7 +69,7 @@
             // 
             this.list_images.Location = new System.Drawing.Point(12, 56);
             this.list_images.Name = "list_images";
-            this.list_images.Size = new System.Drawing.Size(121, 246);
+            this.list_images.Size = new System.Drawing.Size(182, 247);
             this.list_images.TabIndex = 0;
             this.list_images.UseCompatibleStateImageBehavior = false;
             this.list_images.SelectedIndexChanged += new System.EventHandler(this.list_images_SelectedIndexChanged);
@@ -79,7 +79,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.num_texid);
             this.groupBox1.Controls.Add(this.picbox_image);
-            this.groupBox1.Location = new System.Drawing.Point(151, 27);
+            this.groupBox1.Location = new System.Drawing.Point(200, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(236, 111);
             this.groupBox1.TabIndex = 1;
@@ -128,7 +128,7 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.num_ysize);
             this.groupBox2.Controls.Add(this.num_padding);
-            this.groupBox2.Location = new System.Drawing.Point(151, 144);
+            this.groupBox2.Location = new System.Drawing.Point(200, 144);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(236, 138);
             this.groupBox2.TabIndex = 2;
@@ -272,7 +272,7 @@
             // 
             // btn_generate
             // 
-            this.btn_generate.Location = new System.Drawing.Point(151, 288);
+            this.btn_generate.Location = new System.Drawing.Point(200, 288);
             this.btn_generate.Name = "btn_generate";
             this.btn_generate.Size = new System.Drawing.Size(236, 42);
             this.btn_generate.TabIndex = 3;
@@ -284,7 +284,7 @@
             // 
             this.btn_addimage.Location = new System.Drawing.Point(12, 27);
             this.btn_addimage.Name = "btn_addimage";
-            this.btn_addimage.Size = new System.Drawing.Size(121, 23);
+            this.btn_addimage.Size = new System.Drawing.Size(182, 23);
             this.btn_addimage.TabIndex = 4;
             this.btn_addimage.Text = "Add Image";
             this.btn_addimage.UseVisualStyleBackColor = true;
@@ -300,7 +300,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(396, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(448, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -337,9 +337,9 @@
             // 
             // btn_remove
             // 
-            this.btn_remove.Location = new System.Drawing.Point(12, 308);
+            this.btn_remove.Location = new System.Drawing.Point(12, 309);
             this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(121, 23);
+            this.btn_remove.Size = new System.Drawing.Size(182, 21);
             this.btn_remove.TabIndex = 6;
             this.btn_remove.Text = "Remove Image";
             this.btn_remove.UseVisualStyleBackColor = true;
@@ -349,7 +349,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(396, 343);
+            this.ClientSize = new System.Drawing.Size(448, 343);
             this.Controls.Add(this.btn_remove);
             this.Controls.Add(this.btn_addimage);
             this.Controls.Add(this.btn_generate);
