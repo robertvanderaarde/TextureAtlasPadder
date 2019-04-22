@@ -36,6 +36,10 @@ namespace TextureAtlasPadder
         {
             list_images.View = View.List;
             list_images.MultiSelect = false;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+
             num_imgxsize.Controls[0].Visible = false;
             num_imgysize.Controls[0].Visible = false;
             num_padding.Controls[0].Visible = false;
@@ -124,15 +128,23 @@ namespace TextureAtlasPadder
 
         private void UpdateList()
         {
+            int selected = (list_images.SelectedIndices.Count == 0) ? 0 : list_images.SelectedIndices[0];
             list_images.Items.Clear();
 
             for (int i = 0; i < images.Count; i++) {
                 list_images.Items.Add("(" + images[i].GetID() + "): " + images[i].GetFileName() + "                                  ");
             }
+
+            if (list_images.Items.Count > selected)
+            {
+                list_images.Items[selected].Focused = true;
+                list_images.Items[selected].Selected = true;
+            }
         }
 
         private void list_images_SelectedIndexChanged(object sender, EventArgs e)
         {
+            list_images.Select();
             if (list_images.SelectedIndices.Count == 0)
             {
                 picbox_image.Image = null;
@@ -201,39 +213,46 @@ namespace TextureAtlasPadder
 
         private void btn_generate_Click(object sender, EventArgs e)
         {
-            int imgWidth = properties.imageSizeX * properties.rows + (properties.rows * 2 * properties.padding);
-            int imgHeight = properties.imageSizeY * properties.columns + (properties.columns * 2 * properties.padding);
-            Bitmap output = new Bitmap(imgWidth, imgHeight);
 
-            for (int i = 0; i < images.Count; i++)
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+            saveFileDialog1.Title = "Save an Image File";
+            saveFileDialog1.ShowDialog();
+
+            if (saveFileDialog1.FileName != "")
             {
-                Bitmap padded = padder.PadTexture(images[i].GetImage(), properties.padding);
-                padded = new Bitmap(padded, new Size(properties.imageSizeX, properties.imageSizeY));
-                int startX = images[i].GetID() % properties.columns;
-                int startY = images[i].GetID() / properties.rows;
+                int imgWidth = properties.imageSizeX * properties.rows + (properties.rows * 2 * properties.padding);
+                int imgHeight = properties.imageSizeY * properties.columns + (properties.columns * 2 * properties.padding);
+                Bitmap output = new Bitmap(imgWidth, imgHeight);
 
-                startX *= (padded.Width);
-                startY *= (padded.Width);
-
-                Console.WriteLine("Starting X for images[" + i + "]: " + startX);
-                Console.WriteLine("Starting Y for images[" + i + "]: " + startY);
-                for (int x = 0; x < padded.Width; x++)
+                for (int i = 0; i < images.Count; i++)
                 {
-                    for (int y = 0; y < padded.Height; y++)
+                    Bitmap padded = padder.PadTexture(images[i].GetImage(), properties.padding);
+                    padded = new Bitmap(padded, new Size(properties.imageSizeX, properties.imageSizeY));
+                    int startX = images[i].GetID() % properties.columns;
+                    int startY = images[i].GetID() / properties.rows;
+
+                    startX *= (padded.Width);
+                    startY *= (padded.Width);
+
+                    for (int x = 0; x < padded.Width; x++)
                     {
-                        output.SetPixel(startX + x, startY + y, padded.GetPixel(x, y));
+                        for (int y = 0; y < padded.Height; y++)
+                        {
+                            output.SetPixel(startX + x, startY + y, padded.GetPixel(x, y));
+                        }
                     }
                 }
-            }
 
-            output.Save("output.png");
+                output.Save(saveFileDialog1.FileName);
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Text File|*.txt";
-            saveFileDialog1.Title = "Save a Text File";
+            saveFileDialog1.Filter = "TAP File|*.tap";
+            saveFileDialog1.Title = "Save a Texture Atlas Padding File";
             saveFileDialog1.ShowDialog();
 
             if (saveFileDialog1.FileName != "")
@@ -245,8 +264,8 @@ namespace TextureAtlasPadder
         private void loadToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             OpenFileDialog openDialog = new OpenFileDialog();
-            openDialog.Filter = "Text File|*.txt";
-            openDialog.Title = "Open a Text File";
+            openDialog.Filter = "TAP File|*.tap";
+            openDialog.Title = "Open a Texture Atlas Padding File";
             openDialog.ShowDialog();
 
             if (openDialog.FileName != "")
