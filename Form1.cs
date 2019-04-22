@@ -265,8 +265,6 @@ namespace TextureAtlasPadder
                 startX *= (padded.Width);
                 startY *= (padded.Height);
 
-                Console.WriteLine("Image ID: " + images[i].GetID() + "Start X: " + startX + ", Start Y: " + startY);
-
                 for (int x = 0; x < padded.Width; x++)
                 {
                     for (int y = 0; y < padded.Height; y++)
@@ -284,7 +282,6 @@ namespace TextureAtlasPadder
 
         private void ReportProgress(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
-            Console.WriteLine("Reporting!");
             pbar.Value = (int)(((float)e.ProgressPercentage / (float)images.Count) * 100.0f);
         }
         private void btn_generate_Click(object sender, EventArgs e)
