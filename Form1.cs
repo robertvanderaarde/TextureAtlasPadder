@@ -235,19 +235,22 @@ namespace TextureAtlasPadder
 
             if (saveFileDialog1.FileName != "")
             {
-                int imgWidth = properties.imageSizeX * properties.rows + (properties.rows * 2 * properties.padding);
-                int imgHeight = properties.imageSizeY * properties.columns + (properties.columns * 2 * properties.padding);
+                int imgWidth = properties.imageSizeX * properties.columns + (properties.columns * 2 * properties.padding);
+                int imgHeight = properties.imageSizeY * properties.rows + (properties.rows * 2 * properties.padding);
                 Bitmap output = new Bitmap(imgWidth, imgHeight);
 
                 for (int i = 0; i < images.Count; i++)
                 {
-                    Bitmap padded = padder.PadTexture(images[i].GetImage(), properties.padding);
-                    padded = new Bitmap(padded, new Size(properties.imageSizeX, properties.imageSizeY));
+                    //Bitmap resized = new Bitmap(images[i].GetImage(), new Size(properties.imageSizeX, properties.imageSizeY));
+                    //Bitmap padded = padder.PadTexture(resized, properties.padding);
+                    //padded = new Bitmap(padded, new Size(properties.imageSizeX, properties.imageSizeY));
+                    Bitmap padded = padder.PadTextureResize(images[i].GetImage(), new Size(properties.imageSizeX, properties.imageSizeY), properties.padding);
                     int startX = images[i].GetID() % properties.columns;
-                    int startY = images[i].GetID() / properties.rows;
+                    int startY = images[i].GetID() / properties.columns;
 
                     startX *= (padded.Width);
-                    startY *= (padded.Width);
+                    startY *= (padded.Height);
+                    Console.WriteLine("Image ID: " + images[i].GetID() + "Start X: " + startX + ", Start Y: " + startY);
 
                     for (int x = 0; x < padded.Width; x++)
                     {
