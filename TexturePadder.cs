@@ -26,14 +26,7 @@ namespace TextureAtlasPadder
             {
                 for (int y = 0; y < output.Height; y++)
                 {
-                    if (x + paddingAmount < input.Width && y < input.Height + paddingAmount && y >= paddingAmount)
-                    {
-                        output.SetPixel(x, y, output.GetPixel(paddingAmount, y));
-                    }
-                    else
-                    {
-                        output.SetPixel(x, y, Color.Green);
-                    }
+                    output.SetPixel(x, y, output.GetPixel(paddingAmount, y));
                 }
             }
 
@@ -42,14 +35,7 @@ namespace TextureAtlasPadder
             {
                 for (int y = 0; y < output.Height; y++)
                 {
-                    if (y >= paddingAmount && y < input.Height + paddingAmount)
-                    {
-                        output.SetPixel(x, y, output.GetPixel(input.Width + paddingAmount - 1, y));
-                    }
-                    else
-                    {
-                        output.SetPixel(x, y, Color.Green);
-                    }
+                    output.SetPixel(x, y, output.GetPixel(input.Width + paddingAmount - 1, y));
                 }
             }
 

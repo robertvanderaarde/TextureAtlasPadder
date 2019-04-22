@@ -128,6 +128,16 @@ namespace TextureAtlasPadder
             }
 
             UpdateList();
+            UpdateValues();
+        }
+
+        private void UpdateValues()
+        {
+            num_padding.Value = this.properties.padding;
+            num_ysize.Value = this.properties.rows;
+            num_xsize.Value = this.properties.columns;
+            num_imgxsize.Value = this.properties.imageSizeX;
+            num_imgysize.Value = this.properties.imageSizeY;
         }
 
         private void UpdateList()
