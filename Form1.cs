@@ -302,5 +302,14 @@ namespace TextureAtlasPadder
                 UpdateList();
             }
         }
+
+        private void btn_remove_Click(object sender, EventArgs e)
+        {
+            if (list_images.SelectedIndices.Count > 0)
+            {
+                images.RemoveAt(list_images.SelectedIndices[0]);
+                UpdateList();
+            }
+        }
     }
 }

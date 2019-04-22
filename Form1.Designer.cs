@@ -52,6 +52,7 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_remove = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_texid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picbox_image)).BeginInit();
@@ -68,7 +69,7 @@
             // 
             this.list_images.Location = new System.Drawing.Point(12, 56);
             this.list_images.Name = "list_images";
-            this.list_images.Size = new System.Drawing.Size(121, 274);
+            this.list_images.Size = new System.Drawing.Size(121, 246);
             this.list_images.TabIndex = 0;
             this.list_images.UseCompatibleStateImageBehavior = false;
             this.list_images.SelectedIndexChanged += new System.EventHandler(this.list_images_SelectedIndexChanged);
@@ -334,11 +335,22 @@
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click_1);
             // 
+            // btn_remove
+            // 
+            this.btn_remove.Location = new System.Drawing.Point(12, 308);
+            this.btn_remove.Name = "btn_remove";
+            this.btn_remove.Size = new System.Drawing.Size(121, 23);
+            this.btn_remove.TabIndex = 6;
+            this.btn_remove.Text = "Remove Image";
+            this.btn_remove.UseVisualStyleBackColor = true;
+            this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
+            // 
             // TextureAtlasPadder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(396, 343);
+            this.Controls.Add(this.btn_remove);
             this.Controls.Add(this.btn_addimage);
             this.Controls.Add(this.btn_generate);
             this.Controls.Add(this.groupBox2);
@@ -394,6 +406,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.Button btn_remove;
     }
 }
 
