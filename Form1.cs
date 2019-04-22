@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace TextureAtlasPadder
@@ -45,6 +46,7 @@ namespace TextureAtlasPadder
             num_texid.Controls[0].Visible = false;
             num_xsize.Controls[0].Visible = false;
             num_ysize.Controls[0].Visible = false;
+            openFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
 
             properties.padding = 10;
             properties.rows = 10;
@@ -61,10 +63,23 @@ namespace TextureAtlasPadder
                 string path = openFileDialog1.FileName;
                 string[] splitPath = path.Split('\\');
                 string fileName = splitPath[splitPath.Length - 1];
-                Bitmap bmp = new Bitmap(path);
+                Bitmap bmp;
+                try
+                {
+                    bmp = new Bitmap(path);
+                }
+                catch (Exception e1)
+                {
+                    Console.WriteLine("Could not open " + path + "!");
+                    return;
+                }
 
                 images.Add(new AtlasImage(bmp, 0, fileName));
                 UpdateList();
+                list_images.Items[list_images.Items.Count - 1].Focused = true;
+                list_images.Items[list_images.Items.Count - 1].Selected = true;
+                num_texid.Select();
+                num_texid.Select(0, num_texid.Value.ToString().Length);
             }
         }
 
@@ -73,8 +88,9 @@ namespace TextureAtlasPadder
             list_images.Items.Clear();
 
             for (int i = 0; i < images.Count; i++) {
-                list_images.Items.Add(images[i].GetFileName() + "                                  ");
+                list_images.Items.Add("(" + images[i].GetID() + "): " + images[i].GetFileName() + "                                  ");
             }
+            Thread.Sleep(10);
         }
 
         private void list_images_SelectedIndexChanged(object sender, EventArgs e)
@@ -113,6 +129,7 @@ namespace TextureAtlasPadder
             }
 
             images[idx].SetID((int)num_texid.Value);
+            UpdateList();
         }
 
         private void num_padding_ValueChanged(object sender, EventArgs e)
