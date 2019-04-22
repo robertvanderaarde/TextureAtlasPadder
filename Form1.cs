@@ -159,7 +159,7 @@ namespace TextureAtlasPadder
             list_images.Items.Clear();
 
             for (int i = 0; i < images.Count; i++) {
-                list_images.Items.Add("(" + images[i].GetID() + "): " + images[i].GetFileName() + "                                  ");
+                list_images.Items.Add("(" + images[i].GetID() + "): " + images[i].GetFileName());
             }
 
             if (list_images.Items.Count <= selected)
