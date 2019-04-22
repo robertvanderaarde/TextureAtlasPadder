@@ -280,9 +280,14 @@ namespace TextureAtlasPadder
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            images.Clear();
-            picbox_image.Image = null;
-            UpdateList();
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to create a new Texture Atlas?", "New Atlas", MessageBoxButtons.YesNo);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                images.Clear();
+                picbox_image.Image = null;
+                UpdateList();
+            }
         }
     }
 }
