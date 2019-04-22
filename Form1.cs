@@ -22,6 +22,7 @@ namespace TextureAtlasPadder
         TextureAtlasProperties properties;
         TexturePadder padder;
         List<AtlasImage> images;
+        int last_selected = -1;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -29,11 +30,6 @@ namespace TextureAtlasPadder
             padder = new TexturePadder();
             properties = new TextureAtlasProperties();
             SetupForm();
-
-            Bitmap bmp = new Bitmap("Dirt2.png");
-            Bitmap bmp_new = padder.PadTexture(bmp, 20);
-
-            bmp_new.Save("Dirt2_new.png");
         }
 
         void SetupForm()
@@ -76,11 +72,54 @@ namespace TextureAtlasPadder
 
                 images.Add(new AtlasImage(bmp, 0, fileName));
                 UpdateList();
-                list_images.Items[list_images.Items.Count - 1].Focused = true;
-                list_images.Items[list_images.Items.Count - 1].Selected = true;
-                num_texid.Select();
-                num_texid.Select(0, num_texid.Value.ToString().Length);
+                bool success = false;
+                while (!success)
+                {
+                    try
+                    {
+                        list_images.Items[list_images.Items.Count - 1].Focused = true;
+                        list_images.Items[list_images.Items.Count - 1].Selected = true;
+                        list_images.Select();
+                    }
+                    catch (Exception e1)
+                    {
+
+                    }
+                    finally
+                    {
+                        success = true;
+                    }
+                }
             }
+        }
+
+        private void SaveAtlas(string path)
+        {
+            string output = "";
+            output += properties.Serialize() + "\n";
+            for (int i = 0; i < images.Count; i++)
+            {
+                output += images[i].Serialize() + "\n";
+            }
+            output = output.Trim();
+
+            System.IO.File.WriteAllText(path, output);
+        }
+
+        private void LoadAtlas(string path)
+        {
+            images.Clear();
+
+            string input = System.IO.File.ReadAllText(path);
+            string[] lines = input.Split('\n');
+            properties.Deserialize(lines[0]);
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                images.Add(new AtlasImage(lines[i]));
+            }
+
+            UpdateList();
         }
 
         private void UpdateList()
@@ -90,7 +129,6 @@ namespace TextureAtlasPadder
             for (int i = 0; i < images.Count; i++) {
                 list_images.Items.Add("(" + images[i].GetID() + "): " + images[i].GetFileName() + "                                  ");
             }
-            Thread.Sleep(10);
         }
 
         private void list_images_SelectedIndexChanged(object sender, EventArgs e)
@@ -103,27 +141,27 @@ namespace TextureAtlasPadder
             }
 
             int idx = list_images.SelectedIndices[0];
+            last_selected = idx;
             if (idx >= images.Count)
             {
                 return;
             }
 
             // Picture box
-            Bitmap bmp = images[idx].GetImage();
-            Bitmap resized = new Bitmap(bmp, new Size(picbox_image.Width, picbox_image.Height));
+            if (idx >= 0 && idx < images.Count)
+            {
+                Bitmap bmp = images[idx].GetImage();
+                Bitmap resized = new Bitmap(bmp, new Size(picbox_image.Width, picbox_image.Height));
 
-            picbox_image.Image = resized;
-            num_texid.Value = images[idx].GetID();
+                picbox_image.Image = resized;
+                num_texid.Value = images[idx].GetID();
+            }
         }
 
         private void num_texid_ValueChanged(object sender, EventArgs e)
         {
-            if (list_images.SelectedIndices.Count == 0)
-            {
-                return;
-            }
-            int idx = list_images.SelectedIndices[0];
-            if (idx >= images.Count)
+            int idx = last_selected;
+            if (idx >= images.Count && idx >= 0)
             {
                 return;
             }
@@ -165,8 +203,8 @@ namespace TextureAtlasPadder
 
             for (int i = 0; i < images.Count; i++)
             {
-                Bitmap resized = new Bitmap(images[i].GetImage(), new Size(properties.imageSizeX, properties.imageSizeY));
-                Bitmap padded = padder.PadTexture(resized, properties.padding);
+                Bitmap padded = padder.PadTexture(images[i].GetImage(), properties.padding);
+                padded = new Bitmap(padded, new Size(properties.imageSizeX, properties.imageSizeY));
                 int startX = images[i].GetID() % properties.columns;
                 int startY = images[i].GetID() / properties.rows;
 
@@ -185,6 +223,39 @@ namespace TextureAtlasPadder
             }
 
             output.Save("output.png");
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Text File|*.txt";
+            saveFileDialog1.Title = "Save a Text File";
+            saveFileDialog1.ShowDialog();
+
+            if (saveFileDialog1.FileName != "")
+            {
+                SaveAtlas(saveFileDialog1.FileName);
+            }
+        }
+
+        private void loadToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Filter = "Text File|*.txt";
+            openDialog.Title = "Open a Text File";
+            openDialog.ShowDialog();
+
+            if (openDialog.FileName != "")
+            {
+                LoadAtlas(openDialog.FileName);
+            }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            images.Clear();
+            picbox_image.Image = null;
+            UpdateList();
         }
     }
 }

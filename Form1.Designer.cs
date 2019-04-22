@@ -47,6 +47,11 @@
             this.label6 = new System.Windows.Forms.Label();
             this.num_imgxsize = new System.Windows.Forms.NumericUpDown();
             this.num_imgysize = new System.Windows.Forms.NumericUpDown();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbox_image)).BeginInit();
@@ -56,11 +61,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_xsize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_imgxsize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_imgysize)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // list_images
             // 
-            this.list_images.Location = new System.Drawing.Point(10, 41);
+            this.list_images.Location = new System.Drawing.Point(12, 56);
             this.list_images.Name = "list_images";
             this.list_images.Size = new System.Drawing.Size(121, 274);
             this.list_images.TabIndex = 0;
@@ -72,7 +78,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.num_texid);
             this.groupBox1.Controls.Add(this.picbox_image);
-            this.groupBox1.Location = new System.Drawing.Point(149, 12);
+            this.groupBox1.Location = new System.Drawing.Point(151, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(236, 111);
             this.groupBox1.TabIndex = 1;
@@ -91,7 +97,7 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.num_ysize);
             this.groupBox2.Controls.Add(this.num_padding);
-            this.groupBox2.Location = new System.Drawing.Point(149, 129);
+            this.groupBox2.Location = new System.Drawing.Point(151, 144);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(236, 138);
             this.groupBox2.TabIndex = 2;
@@ -100,7 +106,7 @@
             // 
             // btn_generate
             // 
-            this.btn_generate.Location = new System.Drawing.Point(149, 273);
+            this.btn_generate.Location = new System.Drawing.Point(151, 288);
             this.btn_generate.Name = "btn_generate";
             this.btn_generate.Size = new System.Drawing.Size(236, 42);
             this.btn_generate.TabIndex = 3;
@@ -203,7 +209,7 @@
             // 
             // btn_addimage
             // 
-            this.btn_addimage.Location = new System.Drawing.Point(10, 12);
+            this.btn_addimage.Location = new System.Drawing.Point(12, 27);
             this.btn_addimage.Name = "btn_addimage";
             this.btn_addimage.Size = new System.Drawing.Size(121, 23);
             this.btn_addimage.TabIndex = 4;
@@ -287,16 +293,59 @@
             0});
             this.num_imgysize.ValueChanged += new System.EventHandler(this.num_imgysize_ValueChanged);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(396, 24);
+            this.menuStrip1.TabIndex = 5;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.loadToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // loadToolStripMenuItem
+            // 
+            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click_1);
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
             // TextureAtlasPadder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(396, 323);
+            this.ClientSize = new System.Drawing.Size(396, 343);
             this.Controls.Add(this.btn_addimage);
             this.Controls.Add(this.btn_generate);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.list_images);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "TextureAtlasPadder";
             this.Text = "Texture Atlas Padder";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -311,7 +360,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_xsize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_imgxsize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_imgysize)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -336,6 +388,12 @@
         private System.Windows.Forms.NumericUpDown num_imgxsize;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
     }
 }
 

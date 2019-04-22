@@ -67,7 +67,7 @@ namespace TextureAtlasPadder
             {
                 for (int y = input.Height + paddingAmount;  y < output.Height; y++)
                 {
-                    output.SetPixel(x, y, output.GetPixel(x, paddingAmount));
+                    output.SetPixel(x, y, output.GetPixel(x, input.Height + paddingAmount - 1));
                 }
             }
 
