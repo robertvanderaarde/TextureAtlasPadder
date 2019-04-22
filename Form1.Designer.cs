@@ -53,6 +53,7 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_remove = new System.Windows.Forms.Button();
+            this.pbar = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_texid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picbox_image)).BeginInit();
@@ -345,11 +346,19 @@
             this.btn_remove.UseVisualStyleBackColor = true;
             this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
             // 
+            // pbar
+            // 
+            this.pbar.Location = new System.Drawing.Point(12, 336);
+            this.pbar.Name = "pbar";
+            this.pbar.Size = new System.Drawing.Size(424, 23);
+            this.pbar.TabIndex = 7;
+            // 
             // TextureAtlasPadder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 343);
+            this.ClientSize = new System.Drawing.Size(448, 369);
+            this.Controls.Add(this.pbar);
             this.Controls.Add(this.btn_remove);
             this.Controls.Add(this.btn_addimage);
             this.Controls.Add(this.btn_generate);
@@ -407,6 +416,7 @@
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.Button btn_remove;
+        private System.Windows.Forms.ProgressBar pbar;
     }
 }
 

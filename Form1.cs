@@ -23,6 +23,7 @@ namespace TextureAtlasPadder
         TexturePadder padder;
         List<AtlasImage> images;
         int last_selected = -1;
+        string outputFileName;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -57,6 +58,9 @@ namespace TextureAtlasPadder
             num_ysize.Controls[0].Visible = false;
             openFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
             openFileDialog1.Multiselect = true;
+
+            pbar.Style = ProgressBarStyle.Continuous;
+            pbar.Maximum = 100;
 
             properties.padding = 10;
             properties.rows = 10;
@@ -242,6 +246,47 @@ namespace TextureAtlasPadder
             properties.imageSizeY = (int)num_imgysize.Value;
         }
 
+        private void SaveFile(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = (BackgroundWorker)sender;
+            int imgWidth = properties.imageSizeX * properties.columns + (properties.columns * 2 * properties.padding);
+            int imgHeight = properties.imageSizeY * properties.rows + (properties.rows * 2 * properties.padding);
+            Bitmap output = new Bitmap(imgWidth, imgHeight);
+
+            for (int i = 0; i < images.Count; i++)
+            {
+                //Bitmap resized = new Bitmap(images[i].GetImage(), new Size(properties.imageSizeX, properties.imageSizeY));
+                //Bitmap padded = padder.PadTexture(resized, properties.padding);
+                //padded = new Bitmap(padded, new Size(properties.imageSizeX, properties.imageSizeY));
+                Bitmap padded = padder.PadTextureResize(images[i].GetImage(), new Size(properties.imageSizeX, properties.imageSizeY), properties.padding);
+                int startX = images[i].GetID() % properties.columns;
+                int startY = images[i].GetID() / properties.columns;
+
+                startX *= (padded.Width);
+                startY *= (padded.Height);
+
+                Console.WriteLine("Image ID: " + images[i].GetID() + "Start X: " + startX + ", Start Y: " + startY);
+
+                for (int x = 0; x < padded.Width; x++)
+                {
+                    for (int y = 0; y < padded.Height; y++)
+                    {
+                        output.SetPixel(startX + x, startY + y, padded.GetPixel(x, y));
+                    }
+                }
+
+                worker.ReportProgress(i);
+            }
+
+            output.Save(this.outputFileName);
+            worker.ReportProgress(0);
+        }
+
+        private void ReportProgress(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            Console.WriteLine("Reporting!");
+            pbar.Value = (int)(((float)e.ProgressPercentage / (float)images.Count) * 100.0f);
+        }
         private void btn_generate_Click(object sender, EventArgs e)
         {
 
@@ -252,33 +297,12 @@ namespace TextureAtlasPadder
 
             if (saveFileDialog1.FileName != "")
             {
-                int imgWidth = properties.imageSizeX * properties.columns + (properties.columns * 2 * properties.padding);
-                int imgHeight = properties.imageSizeY * properties.rows + (properties.rows * 2 * properties.padding);
-                Bitmap output = new Bitmap(imgWidth, imgHeight);
-
-                for (int i = 0; i < images.Count; i++)
-                {
-                    //Bitmap resized = new Bitmap(images[i].GetImage(), new Size(properties.imageSizeX, properties.imageSizeY));
-                    //Bitmap padded = padder.PadTexture(resized, properties.padding);
-                    //padded = new Bitmap(padded, new Size(properties.imageSizeX, properties.imageSizeY));
-                    Bitmap padded = padder.PadTextureResize(images[i].GetImage(), new Size(properties.imageSizeX, properties.imageSizeY), properties.padding);
-                    int startX = images[i].GetID() % properties.columns;
-                    int startY = images[i].GetID() / properties.columns;
-
-                    startX *= (padded.Width);
-                    startY *= (padded.Height);
-                    Console.WriteLine("Image ID: " + images[i].GetID() + "Start X: " + startX + ", Start Y: " + startY);
-
-                    for (int x = 0; x < padded.Width; x++)
-                    {
-                        for (int y = 0; y < padded.Height; y++)
-                        {
-                            output.SetPixel(startX + x, startY + y, padded.GetPixel(x, y));
-                        }
-                    }
-                }
-
-                output.Save(saveFileDialog1.FileName);
+                this.outputFileName = saveFileDialog1.FileName;
+                BackgroundWorker bWorker = new BackgroundWorker();
+                bWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.SaveFile);
+                bWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.ReportProgress);
+                bWorker.WorkerReportsProgress = true;
+                bWorker.RunWorkerAsync();
             }
         }
 
