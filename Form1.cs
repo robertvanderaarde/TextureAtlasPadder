@@ -47,6 +47,7 @@ namespace TextureAtlasPadder
             num_xsize.Controls[0].Visible = false;
             num_ysize.Controls[0].Visible = false;
             openFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+            openFileDialog1.Multiselect = true;
 
             properties.padding = 10;
             properties.rows = 10;
@@ -60,38 +61,41 @@ namespace TextureAtlasPadder
             DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
             if (result == DialogResult.OK) // Test result.
             {
-                string path = openFileDialog1.FileName;
-                string[] splitPath = path.Split('\\');
-                string fileName = splitPath[splitPath.Length - 1];
-                Bitmap bmp;
-                try
+                foreach (String s in openFileDialog1.FileNames)
                 {
-                    bmp = new Bitmap(path);
-                }
-                catch (Exception e1)
-                {
-                    Console.WriteLine("Could not open " + path + "!");
-                    return;
-                }
-
-                images.Add(new AtlasImage(bmp, 0, fileName));
-                UpdateList();
-                bool success = false;
-                while (!success)
-                {
+                    string path = s;
+                    string[] splitPath = path.Split('\\');
+                    string fileName = splitPath[splitPath.Length - 1];
+                    Bitmap bmp;
                     try
                     {
-                        list_images.Items[list_images.Items.Count - 1].Focused = true;
-                        list_images.Items[list_images.Items.Count - 1].Selected = true;
-                        list_images.Select();
+                        bmp = new Bitmap(path);
                     }
                     catch (Exception e1)
                     {
-
+                        Console.WriteLine("Could not open " + path + "!");
+                        return;
                     }
-                    finally
+
+                    images.Add(new AtlasImage(bmp, 0, fileName));
+                    UpdateList();
+                    bool success = false;
+                    while (!success)
                     {
-                        success = true;
+                        try
+                        {
+                            list_images.Items[list_images.Items.Count - 1].Focused = true;
+                            list_images.Items[list_images.Items.Count - 1].Selected = true;
+                            list_images.Select();
+                        }
+                        catch (Exception e1)
+                        {
+
+                        }
+                        finally
+                        {
+                            success = true;
+                        }
                     }
                 }
             }
